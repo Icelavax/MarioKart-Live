@@ -1,0 +1,16 @@
+{
+  "name": "csit314-mario-kart-sprint1",
+  "version": "1.0.0",
+  "description": "CSIT314 Team Mario Kart - Sprint 1 BCE code with web UI (in-memory data, no database yet).",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "4.21.2"
+  }
+}
