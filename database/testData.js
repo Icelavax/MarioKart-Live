@@ -7,6 +7,7 @@
 // The admin password "admin" is shorter than the 6-character rule on the Create User Account
 // form; that rule lives in the boundary, so code can still create this one demo account.
 import CreateUserAccountController from '../control/CreateUserAccountController.js';
+// bring in the UserAccount entity class (it holds and checks the user account data), plus AccountStatus
 import UserAccount, { AccountStatus } from '../entity/UserAccount.js';
 
 // profileId: 1 User Admin, 2 Interior Designer, 3 Customer, 4 Platform Manager
@@ -38,11 +39,17 @@ export const SPRINT1_ACCOUNTS = [
     { username: 'peishan.tay', email: 'peishan.tay@outlook.com', password: 'Pass1234', fullName: 'Pei Shan Tay', contactNumber: '91026049', profileId: 4 },  // userId 25
 ];
 
+// adds the 25 test accounts
 export function loadSprint1TestData() {
+    // accounts are created through the real controller, the same way the website does it
     const control = new CreateUserAccountController();
+    // for each test account...
     for (const a of SPRINT1_ACCOUNTS) {
+        // ...create it (the password is hashed by the entity)
         control.createUserAccount(a.username, a.email, a.password, a.fullName, a.contactNumber, a.profileId);
+        // if this test account should be suspended...
         if (a.suspended) {
+            // ...find it and set its status to Suspended
             UserAccount.accounts.find(u => u.username === a.username).accountStatus = AccountStatus.SUSPENDED;
         }
     }

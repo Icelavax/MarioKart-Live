@@ -1,7 +1,7 @@
 {
   "name": "csit314-mario-kart-sprint4",
   "version": "4.0.0",
-  "description": "CSIT314 Team Mario Kart - Sprint 4 BCE code with web UI (in-memory data, no database yet).",
+  "description": "CSIT314 Team Mario Kart - Sprint 4 BCE code with web UI and PostgreSQL storage.",
   "type": "module",
   "scripts": {
     "start": "node server.js",
