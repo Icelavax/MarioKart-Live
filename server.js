@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import { seed } from './database/seed.js';
 import { loadDemoData } from './database/demoData.js';
+import * as db from './database/db.js';
 import { Session, Role, newSessionData, runWithSession } from './boundary/Session.js';
 import UserProfile from './entity/UserProfile.js';
 import UserAccount from './entity/UserAccount.js';
@@ -80,8 +81,17 @@ const LOGOUT_PAGES = {
     [Role.PLATFORM_MANAGER]: PlatformManagerLogoutPage,
 };
 
-seed();
-loadDemoData();
+// Start-up data: from the database when DATABASE_URL is set (seeded the very first time),
+// otherwise in memory (resets on every restart)
+if (db.enabled) {
+    const hadData = await db.loadAll();
+    if (!hadData) { seed(); loadDemoData(); await db.saveAll(); }
+    console.log(`Database connected (${hadData ? 'loaded saved data' : 'first run: test data saved'})`);
+} else {
+    seed();
+    loadDemoData();
+    console.log('No DATABASE_URL set - data is kept in memory and resets on restart');
+}
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
@@ -109,6 +119,12 @@ setInterval(() => {                          // forget sessions nobody has used 
     const now = Date.now();
     for (const [id, e] of sessions) if (e.expires < now) sessions.delete(id);
 }, 15 * 60 * 1000).unref();
+
+// After any change made through a form, write the data back to the database (if one is set up)
+app.use((req, res, next) => {
+    if (req.method === 'POST') res.on('finish', db.saveSoon);
+    next();
+});
 
 // One-time message shown on the next screen (e.g. "Account created"), kept per browser
 const setFlash = msg => { Session.flash = msg; };
@@ -549,7 +565,7 @@ app.get('/idps/:id', CUSTOMER, (req, res) => {
     const idpId = toInt(req.params.id), page = new ViewIDPPage();
     page.selectIDP(idpId);                                     // US31 View IDP: selectIDP(idpId)
     if (page.output.type !== 'data') return done(res, page.output, '/dashboard');
-    if (!takeFlashPeek()) IDPViewRecord.recordView(idpId, Session.userId);   // counts towards US37 "View IDP Views"
+    if (!takeFlashPeek()) { IDPViewRecord.recordView(idpId, Session.userId); db.saveSoon(); }   // counts towards US37 "View IDP Views"
     render(res, view.idpView({ session: Session, idp: page.output.data, categories: IDPCategory.getAllCategories(),
         banner: takeFlash(), canSave: HAS_SAVE }));
 });

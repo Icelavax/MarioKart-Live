@@ -3,7 +3,6 @@ export const ProfileStatus = Object.freeze({ ACTIVE: 'Active', SUSPENDED: 'Suspe
 // <<Entity>> UserProfile  (a profile = a role, e.g. "Interior Designer")
 export default class UserProfile {
     static profiles = [];
-    static #nextId = 1;
 
     profileId; profileName; description; profileStatus; createdAt;
 
@@ -14,7 +13,7 @@ export default class UserProfile {
         if (UserProfile.profiles.some(p => p.profileName.toLowerCase() === String(name).toLowerCase())) return false;
 
         const profile = new UserProfile();
-        profile.profileId = UserProfile.#nextId++;
+        profile.profileId = Math.max(0, ...UserProfile.profiles.map(p => p.profileId)) + 1;
         profile.profileName = name;
         profile.description = description ?? '';
         profile.profileStatus = ProfileStatus.ACTIVE;
@@ -59,7 +58,7 @@ export default class UserProfile {
     }
 
     // Used by the seed / tests to start from empty
-    static reset() { UserProfile.profiles.length = 0; UserProfile.#nextId = 1; }
+    static reset() { UserProfile.profiles.length = 0; }
 
     // UI support (not a user story): fills the User Profile drop-down lists
     static getAllProfiles() { return [...UserProfile.profiles]; }

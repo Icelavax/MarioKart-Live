@@ -17,7 +17,10 @@ npm start
 ```
 Then open http://localhost:3000. Log in with a test account below (pick the matching User Profile).
 The site has screens for every story in this sprint folder (and nothing from later sprints).
-Data is kept in memory, so it resets every time the server restarts.
+Without a database, data is kept in memory and resets every time the server restarts.
+To keep data, set `DATABASE_URL` to a PostgreSQL connection string (e.g. a free Neon database):
+the tables are created and filled with the test data on the first start, and every change
+made through the website is saved (see `database/db.js`).
 Each browser has its own login session (cookie), so several people can use it at once.
 
 `server.js` only passes form input to the boundary pages, calls the BCE methods / UI events in the
