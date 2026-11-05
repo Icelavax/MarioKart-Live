@@ -1,4 +1,5 @@
 import CreateUserProfileController from '../control/CreateUserProfileController.js';
+import { isFilled } from './Validator.js';
 
 // <<Boundary>> CreateUserProfilePage - US6 Create User Profile
 export default class CreateUserProfilePage {
@@ -9,9 +10,12 @@ export default class CreateUserProfilePage {
 
     // +submitForm(profileName: String, description: String): void
     submitForm(profileName, description) {
-        const result = new CreateUserProfileController().createUserProfile(profileName, description);
+        if (!isFilled(profileName)) { this.displayError('Profile name is required'); return; }
+
+        const result = new CreateUserProfileController()
+            .createUserProfile(profileName.trim(), (description ?? '').trim());
         if (result === true) this.displaySuccess('Profile created');
-        else this.displayError('Invalid or duplicate profile name');
+        else this.displayError('A profile with this name already exists');
     }
 
     // +displaySuccess(message: String): void

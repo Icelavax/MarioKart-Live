@@ -13,24 +13,20 @@ export default class UserAccount {
 
     // US1 +createUserAccount(username: String, email: String, password: String,
     //                        fullName: String, contactNumber: String, profileId: Integer): Boolean
-    // false if details are invalid, or the username / email is already registered
+    // Field formats are validated by the boundary (CreateUserAccountPage) before this is called.
+    // The entity only rejects what needs the stored data: username / email already registered.
     createUserAccount(username, email, password, fullName, contactNumber, profileId) {
-        if (typeof username !== 'string' || username.trim().length < 3) return false;
-        if (!UserAccount.isEmail(email)) return false;
-        if (typeof password !== 'string' || password.length < 6) return false;
-        if (typeof fullName !== 'string' || fullName.trim() === '') return false;
-        if (!Number.isInteger(profileId)) return false;
         const taken = UserAccount.accounts.some(a =>
-            a.username.toLowerCase() === username.trim().toLowerCase() ||
-            a.email.toLowerCase() === email.trim().toLowerCase());
+            a.username.toLowerCase() === String(username).toLowerCase() ||
+            a.email.toLowerCase() === String(email).toLowerCase());
         if (taken) return false;
 
         const account = new UserAccount();
         account.userId = UserAccount.accounts.length + 1;
-        account.username = username.trim();
-        account.email = email.trim();
+        account.username = username;
+        account.email = email;
         account.passwordHash = UserAccount.hash(password);
-        account.fullName = fullName.trim();
+        account.fullName = fullName;
         account.contactNumber = contactNumber ?? '';
         account.profileId = profileId;
         account.accountStatus = AccountStatus.ACTIVE;
@@ -52,11 +48,57 @@ export default class UserAccount {
         return account;
     }
 
-    // Helpers (not in the BCE): password hashing and email format check
+    // US2 +viewUserAccount(userId: Integer): UserAccount
+    viewUserAccount(userId) {
+        return UserAccount.accounts.find(a => a.userId === userId) ?? null;
+    }
+
+    // US3 +updateUserAccount(userId: Integer, fullName: String, email: String,
+    //                        contactNumber: String): Boolean
+    // Field formats are validated by the boundary (UpdateUserAccountPage).
+    // false if the account does not exist or the new email belongs to another account
+    updateUserAccount(userId, fullName, email, contactNumber) {
+        const account = this.viewUserAccount(userId);
+        if (!account) return false;
+        const emailTaken = UserAccount.accounts.some(a =>
+            a.userId !== userId && a.email.toLowerCase() === String(email).toLowerCase());
+        if (emailTaken) return false;
+
+        account.fullName = fullName;
+        account.email = email;
+        account.contactNumber = contactNumber ?? '';
+        return true;
+    }
+
+    // US4 +suspendUserAccount(userId: Integer): Boolean
+    // false if the account does not exist or is already suspended
+    suspendUserAccount(userId) {
+        const account = UserAccount.accounts.find(a => a.userId === userId);
+        if (!account || account.accountStatus === AccountStatus.SUSPENDED) return false;
+        account.accountStatus = AccountStatus.SUSPENDED;
+        return true;
+    }
+
+    // US5 +searchUserAccount(keyword: String): List<UserAccount>
+    // Matches full name or email (contains), or user ID (exact). Keyword is checked by the boundary.
+    searchUserAccount(keyword) {
+        const k = (keyword ?? '').trim().toLowerCase();
+        return UserAccount.accounts.filter(a =>
+            a.fullName.toLowerCase().includes(k) ||
+            a.email.toLowerCase().includes(k) ||
+            String(a.userId) === k);
+    }
+
+    // US9 +findByProfileId(profileId: Integer): List<UserAccount>
+    findByProfileId(profileId) {
+        return UserAccount.accounts.filter(a => a.profileId === profileId);
+    }
+
+    // Helper (not in the BCE): password hashing
     static hash(password) {
         return createHash('sha256').update(String(password)).digest('hex');
     }
-    static isEmail(email) {
-        return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-    }
+
+    // UI support (not a user story): fills the account list screen
+    static getAllAccounts() { return [...UserAccount.accounts]; }
 }

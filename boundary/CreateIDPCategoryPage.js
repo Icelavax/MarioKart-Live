@@ -1,4 +1,5 @@
 import CreateIDPCategoryController from '../control/CreateIDPCategoryController.js';
+import { isFilled } from './Validator.js';
 
 // <<Boundary>> CreateIDPCategoryPage - US39 Create IDP Category
 export default class CreateIDPCategoryPage {
@@ -8,8 +9,12 @@ export default class CreateIDPCategoryPage {
 
     // +clickCreate(): void
     clickCreate() {
+        if (!isFilled(this.form.categoryName)) {                       // field validation (boundary)
+            this.displayMessage('Category name is required');
+            return;
+        }
         const result = new CreateIDPCategoryController()
-            .createCategory(this.form.categoryName, this.form.categoryDescription);
+            .createCategory(this.form.categoryName.trim(), (this.form.categoryDescription ?? '').trim());
         if (result === true) this.displayMessage('Category created successfully');   // [Boolean == true]
         else this.displayMessage('Unable to create category');                       // [Boolean == false]
     }

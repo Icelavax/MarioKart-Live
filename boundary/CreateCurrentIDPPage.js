@@ -1,5 +1,6 @@
 import CreateCurrentIDPController from '../control/CreateCurrentIDPController.js';
 import { Session } from './Session.js';
+import { isFilled, isPositiveInteger } from './Validator.js';
 
 // <<Boundary>> CreateCurrentIDPPage - US20 Create Current IDP
 export default class CreateCurrentIDPPage {
@@ -16,7 +17,7 @@ export default class CreateCurrentIDPPage {
         if (!this.validateInput()) { this.displayFailure(); return; }
 
         const success = new CreateCurrentIDPController().createIDP(
-            Session.userId, this.#details.categoryId, this.#details.title, this.#details.description);
+            Session.userId, this.#details.categoryId, this.#details.title.trim(), this.#details.description.trim());
         if (success === true) this.displaySuccess();      // [success = true]
         else this.displayFailure();                       // [success = false]
     }
@@ -25,11 +26,11 @@ export default class CreateCurrentIDPPage {
     captureIDPDetails() { this.#details = { ...this.form }; }
 
     // +validateInput(): boolean
+    // All field validation for US20 is here; the IDP entity only stores the record.
     validateInput() {
         const d = this.#details;
-        return d != null && Number.isInteger(d.categoryId)
-            && typeof d.title === 'string' && d.title.trim() !== ''
-            && typeof d.description === 'string' && d.description.trim() !== '';
+        return d != null && Session.userId != null && isPositiveInteger(d.categoryId)
+            && isFilled(d.title) && isFilled(d.description);
     }
 
     // +displaySuccess(): void

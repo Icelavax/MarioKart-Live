@@ -6,6 +6,10 @@ import UserAccount, { AccountStatus } from '../entity/UserAccount.js';
 import CompanyProfile from '../entity/CompanyProfile.js';
 import IDP from '../entity/IDP.js';
 import IDPCategory from '../entity/IDPCategory.js';
+import IDPViewRecord from '../entity/IDPViewRecord.js';
+import SavedIDP from '../entity/SavedIDP.js';
+
+import { loadSprint1TestData } from './testData.js';
 
 export function seed() {
     UserProfile.reset();
@@ -13,22 +17,16 @@ export function seed() {
     CompanyProfile.companies.length = 0;
     IDP.idps.length = 0;
     IDPCategory.categories.length = 0;
+    IDPViewRecord.records.length = 0;
+    SavedIDP.saved.length = 0;
     const profile = new UserProfile();
     profile.createUserProfile('User Admin', 'Manages user accounts and profiles');        // 1
     profile.createUserProfile('Interior Designer', 'Creates and manages IDPs');           // 2
     profile.createUserProfile('Customer', 'Searches and views IDPs');                     // 3
     profile.createUserProfile('Platform Manager', 'Manages IDP categories and reports');   // 4
 
-    const account = new UserAccount();
-    account.createUserAccount('admin',     'admin@example.com',     'admin123',     'Default Admin',     '', 1); // userId 1
-    account.createUserAccount('designer',  'designer@example.com',  'designer123',  'Default Designer',  '', 2); // userId 2
-    account.createUserAccount('customer',  'customer@example.com',  'customer123',  'Default Customer',  '', 3); // userId 3
-    account.createUserAccount('manager',   'manager@example.com',   'manager123',   'Default Manager',   '', 4); // userId 4
-    account.createUserAccount('suspended', 'suspended@example.com', 'suspended123', 'Suspended User',    '', 3); // userId 5
-    UserAccount.accounts[4].accountStatus = AccountStatus.SUSPENDED;
-    // Demo login admin / admin. Set directly because "admin" is shorter than the
-    // 6-character rule that US1 applies to new accounts.
-    UserAccount.accounts[0].passwordHash = UserAccount.hash('admin');
+    // Sprint 1 test data: 25 accounts incl. admin / admin (database/testData.js)
+    loadSprint1TestData();
 
     new IDPCategory().createCategory('Living Room', 'Living room renovation projects');   // categoryId 1
 }
