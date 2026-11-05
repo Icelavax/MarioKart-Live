@@ -46,6 +46,7 @@ import ViewIDPPage from './boundary/ViewIDPPage.js';
 import ViewIDPCategoryPage from './boundary/ViewIDPCategoryPage.js';
 import UpdateIDPCategoryPage from './boundary/UpdateIDPCategoryPage.js';
 import SuspendUserAccountPage from './boundary/SuspendUserAccountPage.js';
+import UnsuspendUserAccountPage from './boundary/UnsuspendUserAccountPage.js';
 import SearchUserAccountPage from './boundary/SearchUserAccountPage.js';
 import DeleteUserProfilePage from './boundary/DeleteUserProfilePage.js';
 import SearchUserProfilePage from './boundary/SearchUserProfilePage.js';
@@ -326,6 +327,19 @@ app.post('/accounts/:id/suspend', ADMIN, (req, res) => {
     if (req.body.step === 'yes') { page.clickYes(); return done(res, page.output, `/accounts/${userId}`); }
     if (req.body.step === 'no') { page.clickNo(); return done(res, page.output, `/accounts/${userId}`); }
     showAccount(res, userId, { confirm: view.confirmModal(page.output.message, `/accounts/${userId}/suspend`, {}) });
+});
+
+// Extra: Unsuspend User Account (pairs with US4)
+app.post('/accounts/:id/unsuspend', ADMIN, (req, res) => {
+    const userId = toInt(req.params.id);
+    const account = new ViewUserAccountController().viewUserAccount(userId);
+    if (!account) return done(res, { type: 'error', message: 'Account not found' }, '/accounts');
+    const page = new UnsuspendUserAccountPage();
+    page.displayUnsuspendUserAccount(account);
+    page.clickUnsuspendUserAccount();                          // -> displayConfirmation()
+    if (req.body.step === 'yes') { page.clickYes(); return done(res, page.output, `/accounts/${userId}`); }
+    if (req.body.step === 'no') { page.clickNo(); return done(res, page.output, `/accounts/${userId}`); }
+    showAccount(res, userId, { confirm: view.confirmModal(page.output.message, `/accounts/${userId}/unsuspend`, {}) });
 });
 
 // =====================================================================================

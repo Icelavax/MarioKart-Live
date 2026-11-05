@@ -79,6 +79,15 @@ export default class UserAccount {
         return true;
     }
 
+    // Extra (not in the report yet): +unsuspendUserAccount(userId: Integer): Boolean
+    // false if the account does not exist or is not suspended
+    unsuspendUserAccount(userId) {
+        const account = UserAccount.accounts.find(a => a.userId === userId);
+        if (!account || account.accountStatus !== AccountStatus.SUSPENDED) return false;
+        account.accountStatus = AccountStatus.ACTIVE;
+        return true;
+    }
+
     // US5 +searchUserAccount(keyword: String): List<UserAccount>
     // Matches full name or email (contains), or user ID (exact). Keyword is checked by the boundary.
     searchUserAccount(keyword) {

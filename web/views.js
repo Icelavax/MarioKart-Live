@@ -19,6 +19,8 @@ function layout(title, body) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} · ID Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -52,6 +54,11 @@ const NAV = {
     [Role.PLATFORM_MANAGER]: [['IDP Categories', '/categories', 'US40'], ['Reports', '/reports', 'US44']],
 };
 
+const ROLE_NAME = { [Role.USER_ADMIN]: 'User Admin', [Role.INTERIOR_DESIGNER]: 'Interior Designer',
+                    [Role.CUSTOMER]: 'Customer', [Role.PLATFORM_MANAGER]: 'Platform Manager' };
+const initials = name => String(name ?? '').trim().split(/\s+/).filter(Boolean).slice(0, 2)
+    .map(w => w[0].toUpperCase()).join('') || '?';
+
 function header(session, current) {
     const items = CREATE_MENU[session.profileId] ?? [];
     let create = '';
@@ -71,10 +78,10 @@ function header(session, current) {
         : '';
     return `<header class="topbar">
   <details class="menu">
-    <summary class="avatar" aria-label="Account menu"><span aria-hidden="true">●</span></summary>
-    <div class="menu-list"><form method="post" action="/logout"><button type="submit">Logout?</button></form></div>
+    <summary class="avatar" aria-label="Account menu"><span aria-hidden="true">${esc(initials(session.fullName))}</span></summary>
+    <div class="menu-list"><p class="menu-who">${esc(session.fullName)}<span>${esc(ROLE_NAME[session.profileId] ?? '')}</span></p><form method="post" action="/logout"><button type="submit">Logout?</button></form></div>
   </details>
-  <span class="welcome">Welcome, ${esc(session.fullName)}</span>
+  <span class="welcome">Welcome, <strong>${esc(session.fullName)}</strong></span>
   ${nav}
   ${create}
 </header>`;
@@ -261,6 +268,8 @@ export function accountDetail({ session, account, profiles, banner: b, confirm }
         has('US3') ? button('Update Account', `/accounts/${account.userId}/edit`, { method: 'get' }) : '',
         has('US4') && account.accountStatus !== 'Suspended'
             ? button('Suspend User Account', `/accounts/${account.userId}/suspend`, { fields: { step: 'ask' }, style: 'btn-danger' }) : '',
+        has('US4') && account.accountStatus === 'Suspended'
+            ? button('Unsuspend User Account', `/accounts/${account.userId}/unsuspend`, { fields: { step: 'ask' }, style: 'btn-success' }) : '',
     ].join('');
     return page(session, 'User Account', '/accounts', `
 <p class="crumbs"><a href="/accounts">← User Accounts</a></p>

@@ -44,6 +44,8 @@ import UpdateIDPCategoryPage from './boundary/UpdateIDPCategoryPage.js';
 import ViewIDPCategoryController from './control/ViewIDPCategoryController.js';
 import SearchUserAccountPage from './boundary/SearchUserAccountPage.js';
 import SuspendUserAccountPage from './boundary/SuspendUserAccountPage.js';
+import UnsuspendUserAccountPage from './boundary/UnsuspendUserAccountPage.js';
+import SuspendUserAccountController from './control/SuspendUserAccountController.js';
 import SearchUserProfilePage from './boundary/SearchUserProfilePage.js';
 import DeleteUserProfilePage from './boundary/DeleteUserProfilePage.js';
 import SearchIDPPage from './boundary/SearchIDPPage.js';
@@ -430,6 +432,21 @@ p.clickSuspendUserAccount(); p.clickYes();
 check('Clicks "Yes" -> displaySuccess("User Account Suspended")', p.output.message === 'User Account Suspended');
 check('Suspended user can no longer log in', login(CustomerLoginPage, 'alice', 'secret1').type === 'error');
 login(UserAdminLoginPage, 'admin', 'admin');
+
+console.log('=== Extra: Unsuspend User Account ===');
+p = new UnsuspendUserAccountPage();
+p.displayUnsuspendUserAccount(new ViewUserAccountController().viewUserAccount(ALICE_ID));
+p.clickUnsuspendUserAccount(); p.clickNo();
+check('Clicks "No" -> still suspended',
+    new ViewUserAccountController().viewUserAccount(ALICE_ID).accountStatus === 'Suspended');
+p.clickUnsuspendUserAccount(); p.clickYes();
+check('Clicks "Yes" -> displaySuccess("User Account Unsuspended")', p.output.message === 'User Account Unsuspended');
+check('Unsuspended user can log in again', login(CustomerLoginPage, 'alice', 'secret1').type === 'success');
+login(UserAdminLoginPage, 'admin', 'admin');
+p.clickUnsuspendUserAccount(); p.clickYes();
+check('Already active -> displayError', p.output.type === 'error');
+// put alice back to suspended so later tests see the same state as before
+new SuspendUserAccountController().suspendUserAccount(ALICE_ID);
 
 console.log('=== US10 Search User Profile ===');
 p = new SearchUserProfilePage();
