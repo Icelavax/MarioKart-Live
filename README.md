@@ -40,7 +40,7 @@ Confirmation pop-ups (Yes / No) are the `displayConfirmation()` steps in the seq
 - `web/stories.js` - which stories this folder has (the UI only shows those)
 - `database/demoData.js` - demo categories, IDPs, company profiles, views and saves (UI only)
 
-## Stories in this code (46)
+## Stories in this code (48)
 | Story | Name | Owner | Added in |
 |---|---|---|---|
 | US1 | Create User Account | Zhi Xiang | Sprint 1 |
@@ -83,6 +83,8 @@ Confirmation pop-ups (Yes / No) are the `displayConfirmation()` steps in the seq
 | US38 | View IDP Shortlists | Shi Mun | Sprint 3 |
 | US42 | Delete IDP Category | Shi Mun | Sprint 3 |
 | US43 | Search IDP Category | Shi Mun | Sprint 3 |
+| US28 | Delete Past IDP | Kei Hong | Sprint 3 |
+| US29 | Search Past IDP | Kei Hong | Sprint 3 |
 | US32 | Save IDP | Cheng Yong | Sprint 4 |
 | US33 | Search Saved IDP | Cheng Yong | Sprint 4 |
 | US34 | View Saved IDP | Cheng Yong | Sprint 4 |
@@ -91,7 +93,7 @@ Confirmation pop-ups (Yes / No) are the `displayConfirmation()` steps in the seq
 | US46 | Generate Monthly Report | Shi Mun | Sprint 4 |
 
 ## Not coded yet (no BCE / sequence diagram in the report)
-- Sprint 3: US28 Delete Past IDP, US29 Search Past IDP (the Sprint 3 report has no BCE / sequence diagram for them yet)
+- None
 
 ## How the pages work without a UI
 - Method names, parameters and return types follow the BCE diagrams.

@@ -51,6 +51,8 @@ import ViewIDPViewsPage from './boundary/ViewIDPViewsPage.js';
 import SearchCompanyProfilePage from './boundary/SearchCompanyProfilePage.js';
 import SearchCurrentIDPPage from './boundary/SearchCurrentIDPPage.js';
 import DeleteCurrentIDPPage from './boundary/DeleteCurrentIDPPage.js';
+import SearchPastIDPPage from './boundary/SearchPastIDPPage.js';
+import DeletePastIDPPage from './boundary/DeletePastIDPPage.js';
 import ViewIDPShortlistsPage from './boundary/ViewIDPShortlistsPage.js';
 import DeleteCompanyProfilePage from './boundary/DeleteCompanyProfilePage.js';
 import SearchIDPCategoryPage from './boundary/SearchIDPCategoryPage.js';
@@ -512,6 +514,38 @@ check('Confirm -> displaySuccess, IDP gone', p.output.type === 'success' && new 
 p = new DeleteCurrentIDPPage();
 p.selectIDP(2);
 check('A past IDP cannot be deleted here -> displayFailure', p.output.type === 'failure');
+
+console.log('=== US29 Search Past IDP ===');
+p = new SearchPastIDPPage();
+p.displaySearchForm();
+check('displaySearchForm', p.output.type === 'form');
+p.enterSearchCriteria('loft', null);
+check('Keyword match -> displaySearchResults', p.output.type === 'data' && p.results[0]?.idpId === 2);
+p.enterSearchCriteria('', 1);
+check('Category only -> displaySearchResults (past only)', p.output.type === 'data' && p.results.every(i => i.projectStatus === IDPStatus.PAST));
+p.enterSearchCriteria('scandi', null);
+check('Current IDPs are not listed -> displayNoResults', p.output.type === 'message');
+p.enterSearchCriteria('', null);
+check('Nothing entered (boundary) -> error', p.output.type === 'error');
+
+console.log('=== US28 Delete Past IDP ===');
+p = new CreateCurrentIDPPage();
+p.form = { categoryId: 1, title: 'Old Showflat', description: 'Finished long ago' };
+p.displayCreateForm();
+const oldId = Math.max(...IDP.idps.map(i => i.idpId));
+p = new UpdateIDPStatusPage(); p.selectIDP(oldId); p.form = { status: IDPStatus.PAST }; p.clickUpdateStatus();
+p = new DeletePastIDPPage();
+p.selectIDP(oldId);
+check('selectIDP -> displayDeleteConfirmation(idp)', p.output.type === 'confirm' && p.output.data.idpId === oldId && p.confirmDeletion() === false);
+p.clickNo();
+check('Cancel (A2) -> nothing deleted', new ViewPastIDPController().viewIDP(oldId) !== null);
+p.selectIDP(oldId); p.clickYes();
+check('Confirm -> displaySuccess, IDP gone', p.output.type === 'success' && new ViewPastIDPController().viewIDP(oldId) === null);
+p = new DeletePastIDPPage();
+p.selectIDP(1);
+check('A current IDP cannot be deleted here (A1) -> displayFailure', p.output.type === 'failure');
+p.selectIDP(999);
+check('IDP not found (A1) -> displayFailure', p.output.type === 'failure');
 
 console.log('=== US38 View IDP Shortlists ===');
 p = new ViewIDPShortlistsPage();

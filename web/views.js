@@ -322,16 +322,21 @@ export function myIDPs({ session, idps, categories, search, banner: b }) {
         esc(i.designStyle), status(i.projectStatus), fmtDate(i.updatedAt)];
     const current = idps.filter(i => i.projectStatus === 'Current');
     const past = idps.filter(i => i.projectStatus === 'Past');
-    const catSelect = `<select name="categoryId" aria-label="Category"><option value="">All categories</option>${categories
-        .map(c => `<option value="${c.categoryId}"${String(search?.categoryId ?? '') === String(c.categoryId) ? ' selected' : ''}>${esc(c.categoryName)}</option>`).join('')}</select>`;
+    const catSelect = scope => `<select name="categoryId" aria-label="Category"><option value="">All categories</option>${categories
+        .map(c => `<option value="${c.categoryId}"${search?.scope === scope && String(search?.categoryId ?? '') === String(c.categoryId) ? ' selected' : ''}>${esc(c.categoryName)}</option>`).join('')}</select>`;
     const searching = search != null;
+    const kw = scope => (search?.scope === scope ? search.keyword : '');
+    const pastSearch = has('US29')
+        ? searchBar('/my-idps', 'q', kw('past'), 'Search past IDPs (title, description, style)',
+            `<input type="hidden" name="scope" value="past">${catSelect('past')}`, search?.scope === 'past') : '';
     return page(session, 'My IDPs', '/my-idps', `
 <div class="page-head"><h1>My IDPs</h1>${button('+ New IDP', '/idps/new', { method: 'get' })}</div>
-${has('US24') ? `<h2>Search current IDPs</h2>${searchBar('/my-idps', 'q', search?.keyword ?? '', 'Keyword (title, description, style)', catSelect, search != null)}` : ''}
+${has('US24') ? `<h2>Search current IDPs</h2>${searchBar('/my-idps', 'q', kw('current'), 'Keyword (title, description, style)', catSelect('current'), search?.scope === 'current')}` : ''}
 ${searching
-        ? `<h2>Search results</h2>${table(['Title', 'Category', 'Design style', 'Status', 'Updated'], idps.map(row), 'No matching current IDPs found')}`
+        ? `<h2>Search results (${search.scope} IDPs)</h2>${table(['Title', 'Category', 'Design style', 'Status', 'Updated'], idps.map(row), `No matching ${search.scope} IDPs found`)}
+           ${search.scope === 'current' && has('US29') ? `<h2>Search past IDPs</h2>${pastSearch}` : ''}`
         : `<h2>Current IDPs</h2>${table(['Title', 'Category', 'Design style', 'Status', 'Updated'], current.map(row), 'No current IDPs')}
-           ${has('US26') ? `<h2>Past IDPs</h2>${table(['Title', 'Category', 'Design style', 'Status', 'Updated'], past.map(row), 'No past IDPs')}` : ''}`}`, b);
+           ${has('US26') ? `<h2>Past IDPs</h2>${pastSearch}${table(['Title', 'Category', 'Design style', 'Status', 'Updated'], past.map(row), 'No past IDPs')}` : ''}`}`, b);
 }
 
 export function idpDetail({ session, idp, categories, banner: b, confirm, stat }) {
@@ -342,7 +347,7 @@ export function idpDetail({ session, idp, categories, banner: b, confirm, stat }
         isCurrent && has('US25') ? button('Update Status', `/my-idps/${idp.idpId}/status`, { method: 'get' }) : '',
         has('US37') ? button('View Views', `/my-idps/${idp.idpId}?show=views`, { method: 'get' }) : '',
         has('US38') ? button('View Shortlists', `/my-idps/${idp.idpId}?show=shortlists`, { method: 'get' }) : '',
-        isCurrent && has('US23') ? button('Delete IDP', `/my-idps/${idp.idpId}/delete`, { fields: { step: 'ask' }, style: 'btn-danger' }) : '',
+        (isCurrent ? has('US23') : has('US28')) ? button('Delete IDP', `/my-idps/${idp.idpId}/delete`, { fields: { step: 'ask' }, style: 'btn-danger' }) : '',
     ].join('');
     return page(session, idp.title, '/my-idps', `
 <p class="crumbs"><a href="/my-idps">← My IDPs</a></p>

@@ -53,6 +53,8 @@ import DeleteCompanyProfilePage from './boundary/DeleteCompanyProfilePage.js';
 import SearchCompanyProfilePage from './boundary/SearchCompanyProfilePage.js';
 import DeleteCurrentIDPPage from './boundary/DeleteCurrentIDPPage.js';
 import SearchCurrentIDPPage from './boundary/SearchCurrentIDPPage.js';
+import DeletePastIDPPage from './boundary/DeletePastIDPPage.js';
+import SearchPastIDPPage from './boundary/SearchPastIDPPage.js';
 import SearchIDPPage from './boundary/SearchIDPPage.js';
 import ViewIDPViewsPage from './boundary/ViewIDPViewsPage.js';
 import ViewIDPShortlistsPage from './boundary/ViewIDPShortlistsPage.js';
@@ -404,10 +406,12 @@ const myIDPs = () => IDP.getAllIDPs().filter(i => i.designerId === Session.userI
 
 app.get('/my-idps', DESIGNER, (req, res) => {
     let idps = myIDPs(), b = takeFlash(), search = null;
-    // US24 Search Current IDP: enterSearchCriteria(keyword, categoryId)
+    // US24 Search Current IDP / US29 Search Past IDP: enterSearchCriteria(keyword, categoryId)
     if (req.query.q !== undefined || req.query.categoryId !== undefined) {
-        search = { keyword: String(req.query.q ?? ''), categoryId: req.query.categoryId ?? '' };
-        const page = new SearchCurrentIDPPage();
+        const scope = req.query.scope === 'past' ? 'past' : 'current';
+        search = { scope, keyword: String(req.query.q ?? ''), categoryId: req.query.categoryId ?? '' };
+        let page = new SearchCurrentIDPPage();
+        if (scope === 'past') { page = new SearchPastIDPPage(); page.displaySearchForm(); }
         page.enterSearchCriteria(search.keyword, toInt(search.categoryId));
         idps = page.output.type === 'data' ? page.results : [];
         if (page.output.type === 'error' || page.output.type === 'failure') b = page.output;
@@ -478,9 +482,11 @@ app.post('/my-idps/:id/status', DESIGNER, (req, res) => {
     render(res, view.updateIDPStatus({ session: Session, idp: page.idp, banner: page.output }));
 });
 
-// US23 Delete Current IDP: selectIDP -> displayDeleteConfirmation -> confirmDeletion -> deleteIDP
+// US23 Delete Current IDP / US28 Delete Past IDP: selectIDP -> displayDeleteConfirmation -> confirmDeletion -> deleteIDP
 app.post('/my-idps/:id/delete', DESIGNER, (req, res) => {
-    const idpId = toInt(req.params.id), page = new DeleteCurrentIDPPage();
+    const idpId = toInt(req.params.id);
+    let page = new DeleteCurrentIDPPage();
+    if (myIDPs().find(i => i.idpId === idpId)?.projectStatus === 'Past') page = new DeletePastIDPPage();
     page.selectIDP(idpId);
     if (page.output.type !== 'confirm') return done(res, page.output, `/my-idps/${idpId}`);
     if (req.body.step === 'yes') {
