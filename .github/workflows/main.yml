@@ -1,6 +1,6 @@
 # CI: runs the unit tests on every push and pull request.
 # Render only deploys after a push, so a red build here means "do not deploy".
-name: CI
+name: MarioKart CI
 
 on:
   push:
