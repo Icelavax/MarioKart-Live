@@ -1122,34 +1122,81 @@ const REPORTS = {
     // monthly report (US46)
     monthly: { Page: GenerateMonthlyReportPage, field: 'reportMonth', select: 'selectMonth', title: 'Monthly Report' },
 };
-// the Reports page (Platform Manager only)
-app.get('/reports', MANAGER, (req, res) => {
+// Runs the chosen report through its Boundary page (US44 / US45 / US46)
+function runReport(query) {
     // which report tab is open (daily if not said)
-    const type = REPORTS[req.query.type] ? req.query.type : 'daily';
+    const type = REPORTS[query.type] ? query.type : 'daily';
     // the settings for that report
     const r = REPORTS[type];
     // the date / week / month that was picked
-    const values = { [r.field]: req.query[r.field] ?? '' };
-    // no report yet, any message
-    let report = null, b = takeFlash();
+    const values = { [r.field]: query[r.field] ?? '' };
+    // no report and no message yet
+    let report = null, banner = null;
     // the Generate button was clicked ->
-    if (req.query.generate) {
+    if (query.generate) {
         // create that report's page
         const page = new r.Page();
-        page[r.select](req.query[r.field] ?? '');               // selectDate / selectWeek / selectMonth
+        page[r.select](query[r.field] ?? '');                   // selectDate / selectWeek / selectMonth
         page.clickGenerateReport();                            // -> generate...Report -> displayReport / displayError
         // got a report -> show it with its title
         if (page.output.type === 'data') report = { ...page.output.data, title: r.title };
-        // no report -> show the message (e.g. no activity in that period)
-        else b = page.output;
+        // no report -> keep the message (e.g. no activity in that period)
+        else banner = page.output;
     }
-    // show the Reports page
-    render(res, view.reports({ session: Session, type, values, report, banner: b }));
+    // give back everything the Reports page and the download need
+    return { type, r, values, report, banner };
+}
+// the Reports page (Platform Manager only)
+app.get('/reports', MANAGER, (req, res) => {
+    // run the report for what was picked
+    const { type, values, report, banner } = runReport(req.query);
+    // show the Reports page with the report or the message
+    render(res, view.reports({ session: Session, type, values, report, banner: banner ?? takeFlash() }));
+});
+
+// UI support (not a user story): download the generated report as a CSV file (opens in Excel)
+// UI support: the Download CSV button on the Reports page (Platform Manager only)
+app.get('/reports/download', MANAGER, (req, res) => {
+    // generate the same report the page shows
+    const { type, r, values, report } = runReport({ ...req.query, generate: '1' });
+    // no activity in that period -> nothing to download, go back with this message...
+    if (!report) return done(res, { type: 'error', message: 'No activity data found for the selected period.' },
+        // ...to the same report tab
+        `/reports?type=${type}`);
+    const day = d => new Date(d).toLocaleDateString('en-CA');   // YYYY-MM-DD
+    // the rows of the CSV file:
+    const rows = [
+        // which report
+        ['Report', r.title],
+        // first day of the period
+        ['Period start', day(report.periodStart)],
+        // last day of the period
+        ['Period end', day(report.periodEnd)],
+        // when the file was downloaded
+        ['Generated', new Date().toLocaleString('en-SG')],
+        // an empty line
+        [],
+        // table header
+        ['Activity', 'Count'],
+        // accounts created in the period
+        ['New user accounts', report.breakdown.accountsCreated],
+        // IDPs created in the period
+        ['New IDPs', report.breakdown.idpsCreated],
+        // IDP views in the period
+        ['IDP views', report.breakdown.idpViews],
+        // IDPs saved in the period
+        ['IDPs saved', report.breakdown.idpsSaved],
+        // the total
+        ['Total activities', report.totalActivities],
+    ];
+    // turn the rows into CSV text: each value in quotes, commas between values, one line per row
+    const csv = rows.map(row => row.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
+    res.attachment(`${type}-report-${values[r.field] || day(report.periodStart)}.csv`);
+    res.type('text/csv').send('\uFEFF' + csv);                  // \uFEFF so Excel reads it as UTF-8
 });
 
 // Unknown pages
 app.use((req, res) => res.redirect(Session.userId == null ? '/login' : '/dashboard'));
 
-// the port to listen on: Render sets PORT; 3000 when running on your own computer
 const PORT = process.env.PORT ?? 3000;
 app.listen(PORT, () => console.log(`ID Platform running at http://localhost:${PORT}`));

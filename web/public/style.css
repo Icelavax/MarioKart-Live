@@ -270,3 +270,13 @@ td a:hover { text-decoration: underline; }
   .grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1rem; }
   .wrap { padding: 1.25rem 1rem 3rem; }
 }
+
+/* Reports: download / print buttons, and a clean printout (Print / Save as PDF) */
+.report-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.report-head h2 { margin: 0; }
+.report-actions { display: flex; gap: .5rem; }
+@media print {
+  .topbar, .tabs, .report-form, .report-actions, .banner, .wrap > h1 { display: none !important; }
+  body { background: #fff; }
+  .card { box-shadow: none; }
+}

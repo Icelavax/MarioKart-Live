@@ -489,7 +489,12 @@ export function reports({ session, type, values = {}, report, banner: b }) {
     }[type];
     const r = report && `
 <section class="card wide report">
-  <h2>${esc(report.title)}</h2>
+  <div class="report-head"><h2>${esc(report.title)}</h2>
+    <div class="report-actions">
+      <a class="btn" href="/reports/download?type=${type}&amp;${Object.entries(values).map(([k, val]) => `${k}=${encodeURIComponent(val)}`).join('&amp;')}">Download CSV</a>
+      <button type="button" class="btn" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+  </div>
   <p class="muted">${fmtDate(report.periodStart)}${report.periodEnd && fmtDate(report.periodEnd) !== fmtDate(report.periodStart) ? ` – ${fmtDate(report.periodEnd)}` : ''}</p>
   <p class="big-number">${report.totalActivities}<span>total activities</span></p>
   ${details([['New user accounts', String(report.breakdown.accountsCreated)], ['New IDPs', String(report.breakdown.idpsCreated)],
