@@ -1,0 +1,17 @@
+{
+  "name": "csit314-mario-kart-sprint2",
+  "version": "2.0.0",
+  "description": "CSIT314 Team Mario Kart - Sprint 2 BCE code with web UI and PostgreSQL storage.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "4.21.2",
+    "pg": "8.13.1"
+  }
+}
