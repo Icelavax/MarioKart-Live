@@ -15,6 +15,20 @@ Each folder holds the full, runnable code as it stood at the end of that sprint.
 | [`sprint3/`](sprint3) | Sprint 3 | US4, US5, US9, US10, US16, US17, US23, US24, US28, US29, US30, US37, US38, US42, US43 | Zhi Xiang |
 | [`sprint4/`](sprint4) | Sprint 4 (live) | US32, US33, US34, US44, US45, US46 | Zhi Xiang |
 
+## Sprint timeline
+
+| Sprint | Start | End | Folder |
+|---|---|---|---|
+| Sprint 1 | 16 Oct 2026 | 23 Oct 2026 | `sprint1/` |
+| Sprint 2 | 23 Oct 2026 | 30 Oct 2026 | `sprint2/` |
+| Sprint 3 | 30 Oct 2026 | 06 Nov 2026 | `sprint3/` |
+| Sprint 4 | 06 Nov 2026 | 10 Nov 2026 | `sprint4/` |
+
+> **Note on commit dates:** the four sprint commits ("Sprint 1 – …" to "Sprint 4 – …") were
+> re-dated to the end of each sprint, with the lecturer's approval, because the sprint code was
+> committed to this repository after development. They were actually committed on 11 Nov 2026.
+> Per-story progress and dates are tracked in Taiga.
+
 ## Folder layout (inside each sprint)
 
 ```
