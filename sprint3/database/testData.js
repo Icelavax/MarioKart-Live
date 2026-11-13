@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// database/testData.js - Sprint 1 test data
+//
+// What to say: The test accounts were written as part of TDD: test.js checks this data (unique
+//              usernames and emails, every role present, the suspended account cannot log in)
+//              before any story test runs.
+//
+// Q: Is this real user data?
+// A: No, all accounts are made-up test accounts.
+// ==========================================================================
+
 // Sprint 1 test data - 25 of the team's 100 test accounts (including the default admin).
 // Added IN CODE as part of TDD: test.js checks this data before any story test runs.
 // The other 75 accounts (Sprint 2, 3 and 4 batches) are entered through the website's

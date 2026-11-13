@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US16 Delete Company Profile - <<Boundary>> DeleteCompanyProfilePage
+//
+// What to say: This is the screen for US16. It passes the user's request to
+//              DeleteCompanyProfileController.deleteCompanyProfile(), and then shows the result
+//              with displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Is it really removed from the database?
+// A: The entity removes it from its list after the Yes confirmation, and db.js saves the change
+//    to Neon in one transaction (BEGIN/COMMIT).
+// ==========================================================================
+
 // bring in DeleteCompanyProfileController - this page passes the user's request to it
 import DeleteCompanyProfileController from '../control/DeleteCompanyProfileController.js';
 // bring in Session - who is logged in and which role they have

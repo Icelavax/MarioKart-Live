@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US42 Delete IDP Category - <<Boundary>> DeleteIDPCategoryPage
+//
+// What to say: This is the screen for US42. It passes the user's request to
+//              DeleteIDPCategoryController.deleteCategory(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Is it really removed from the database?
+// A: The entity removes it from its list after the Yes confirmation, and db.js saves the change
+//    to Neon in one transaction (BEGIN/COMMIT).
+// ==========================================================================
+
 // bring in DeleteIDPCategoryController - this page passes the user's request to it
 import DeleteIDPCategoryController from '../control/DeleteIDPCategoryController.js';
 

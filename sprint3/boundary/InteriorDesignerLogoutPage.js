@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US19 Interior Designer Logout - <<Boundary>> InteriorDesignerLogoutPage
+//
+// What to say: This is the screen for US19. It works on the session only (no controller or
+//              entity), exactly as in the BCE diagram.
+//
+// Q: Why is there no controller or entity for logout?
+// A: Logout reads and changes no stored data. killSession() only clears who is logged in, so our
+//    BCE diagram has just the boundary.
+// ==========================================================================
+
 // bring in Session - who is logged in and which role they have
 import { Session } from './Session.js';
 

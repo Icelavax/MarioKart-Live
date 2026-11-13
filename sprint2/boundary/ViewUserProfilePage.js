@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US7 View User Profile - <<Boundary>> ViewUserProfilePage
+//
+// What to say: This is the screen for US7. It passes the user's request to
+//              ViewUserProfileController.viewUserProfile(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: What if the record does not exist or was deleted?
+// A: The entity returns null and the page shows an error message instead of the details.
+// ==========================================================================
+
 // bring in ViewUserProfileController - this page passes the user's request to it
 import ViewUserProfileController from '../control/ViewUserProfileController.js';
 

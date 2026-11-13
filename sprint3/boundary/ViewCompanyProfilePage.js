@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US14 View Company Profile - <<Boundary>> ViewCompanyProfilePage
+//
+// What to say: This is the screen for US14. It passes the user's request to
+//              ViewCompanyProfileController.viewCompanyProfile(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: What if the record does not exist or was deleted?
+// A: The entity returns null and the page shows an error message instead of the details.
+// ==========================================================================
+
 // bring in ViewCompanyProfileController - this page passes the user's request to it
 import ViewCompanyProfileController from '../control/ViewCompanyProfileController.js';
 // bring in Session - who is logged in and which role they have

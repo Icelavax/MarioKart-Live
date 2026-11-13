@@ -1,3 +1,21 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US44 Generate Daily Report - <<Boundary>> GenerateDailyReportPage
+//
+// What to say: This is the screen for US44. It first checks the input with Validator.js (blank
+//              fields, formats). Only if the input is valid does it call
+//              GenerateDailyReportController.generateDailyReport(), and then it shows the result
+//              with displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Why is field validation in the boundary and not in the entity?
+// A: Bad input is stopped at the screen, so the controller and entity only ever receive clean
+//    data. The entity only checks rules that need stored data (e.g. duplicates).
+//
+// Q: Where does the report data come from?
+// A: ReportData.countActivity() counts accounts created, IDPs created, IDP views and IDPs saved
+//    inside the chosen period. The weekly report runs Monday to Sunday.
+// ==========================================================================
+
 // bring in GenerateDailyReportController - this page passes the user's request to it
 import GenerateDailyReportController from '../control/GenerateDailyReportController.js';
 // bring in the shared field-check helpers we need: parseDate

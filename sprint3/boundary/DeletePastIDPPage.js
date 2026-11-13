@@ -1,3 +1,21 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US28 Delete Past IDP - <<Boundary>> DeletePastIDPPage
+//
+// What to say: This is the screen for US28. It first checks the input with Validator.js (blank
+//              fields, formats). Only if the input is valid does it call
+//              ViewPastIDPController.viewIDP(), and then it shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Why is field validation in the boundary and not in the entity?
+// A: Bad input is stopped at the screen, so the controller and entity only ever receive clean
+//    data. The entity only checks rules that need stored data (e.g. duplicates).
+//
+// Q: Is it really removed from the database?
+// A: The entity removes it from its list after the Yes confirmation, and db.js saves the change
+//    to Neon in one transaction (BEGIN/COMMIT).
+// ==========================================================================
+
 // bring in DeletePastIDPController - this page passes the user's request to it
 import DeletePastIDPController from '../control/DeletePastIDPController.js';
 // bring in ViewPastIDPController - this page passes the user's request to it

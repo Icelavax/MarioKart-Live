@@ -1,3 +1,21 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US39 Create IDP Category - <<Boundary>> CreateIDPCategoryPage
+//
+// What to say: This is the screen for US39. It first checks the input with Validator.js (blank
+//              fields, formats). Only if the input is valid does it call
+//              CreateIDPCategoryController.createCategory(), and then it shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Why is field validation in the boundary and not in the entity?
+// A: Bad input is stopped at the screen, so the controller and entity only ever receive clean
+//    data. The entity only checks rules that need stored data (e.g. duplicates).
+//
+// Q: Where is the duplicate check done, and why there?
+// A: Field formats (blank, length, email) are checked in the boundary. A duplicate check needs
+//    the stored data, so the entity does it and returns false, and the page shows displayError().
+// ==========================================================================
+
 // bring in CreateIDPCategoryController - this page passes the user's request to it
 import CreateIDPCategoryController from '../control/CreateIDPCategoryController.js';
 // bring in the shared field-check helpers we need: isFilled

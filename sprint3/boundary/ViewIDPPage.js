@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US31 View IDP - <<Boundary>> ViewIDPPage
+//
+// What to say: This is the screen for US31. It passes the user's request to
+//              ViewIDPController.viewIDP(), and then shows the result with displaySuccess() or
+//              displayError(), following the sequence diagram.
+//
+// Q: What if the record does not exist or was deleted?
+// A: The entity returns null and the page shows an error message instead of the details.
+// ==========================================================================
+
 // bring in ViewIDPController - this page passes the user's request to it
 import ViewIDPController from '../control/ViewIDPController.js';
 

@@ -1,3 +1,17 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US37 View IDP Views - <<Control>> ViewIDPViewsController
+//
+// What to say: The controller has one job: it takes the request from the boundary page and passes
+//              it to IDPViewRecord.getViewCount(), then hands the answer back. It has no screen
+//              and holds no data.
+//
+// Q: Why have a controller if it only passes the call on?
+// A: It keeps the screen and the data apart: the boundary never touches the entity directly. If
+//    the business logic changes, only the controller and entity change, not the UI. That is the
+//    BCE rule.
+// ==========================================================================
+
 // bring in the IDPViewRecord entity class (it holds and checks the idp view record data)
 import IDPViewRecord from '../entity/IDPViewRecord.js';
 

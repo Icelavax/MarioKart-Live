@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US26 View Past IDP - <<Boundary>> ViewPastIDPPage
+//
+// What to say: This is the screen for US26. It passes the user's request to
+//              ViewPastIDPController.viewIDP(), and then shows the result with displaySuccess()
+//              or displayError(), following the sequence diagram.
+//
+// Q: What if the record does not exist or was deleted?
+// A: The entity returns null and the page shows an error message instead of the details.
+// ==========================================================================
+
 // bring in ViewPastIDPController - this page passes the user's request to it
 import ViewPastIDPController from '../control/ViewPastIDPController.js';
 // bring in IDPStatus from the IDP entity file

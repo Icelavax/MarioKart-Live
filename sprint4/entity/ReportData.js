@@ -1,3 +1,17 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// <<Entity>> ReportData
+//
+// What to say: Shared helper for the three reports. countActivity() counts the activity records
+//              that fall inside a period; startOfWeek() makes every weekly report run Monday to
+//              Sunday.
+//
+// Q: Where is the SQL? I do not see any queries here.
+// A: The entity works on its in-memory list. database/db.js loads every table from Neon at
+//    start-up and saves each change back in one transaction. This keeps the entity classes the
+//    same as our BCE diagram and easy to unit test.
+// ==========================================================================
+
 // Not a BCE class: shared by DailyReport, WeeklyReport and MonthlyReport.
 // "Platform activity" = accounts created + IDPs created + IDP views + IDPs saved,
 // counted by the date each one happened. Read-only: never changes any data.

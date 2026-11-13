@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US11 User Admin Login - <<Boundary>> UserAdminLoginPage
+//
+// What to say: This is the screen for US11. It passes the user's request to
+//              UserAdminLoginController.login(), and then shows the result with displaySuccess()
+//              or displayError(), following the sequence diagram.
+//
+// Q: What happens if a suspended user, or the wrong role, tries to log in?
+// A: UserAccount.login() checks the password, that the account is Active and that the profile
+//    matches. If any check fails it returns null and the page shows displayError().
+// ==========================================================================
+
 // bring in UserAdminLoginController - this page passes the user's request to it
 import UserAdminLoginController from '../control/UserAdminLoginController.js';
 // bring in Session, Role - who is logged in and which role they have

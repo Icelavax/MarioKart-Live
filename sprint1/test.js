@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// test.js - unit tests for every user story
+//
+// What to say: Runs each story through Boundary -> Control -> Entity with no UI and no database,
+//              testing the normal flow and the alternate flow from the report. Run: npm test.
+//              Also run on every push by GitHub Actions (MarioKart CI).
+//
+// Q: How do you show one story's tests?
+// A: node tdd/run-us.js US11 (sprint4) prints only that story's tests.
+// ==========================================================================
+
 // Sprint 1: runs every user story through Boundary -> Control -> Entity
 // (no UI, no database). Run with:  node test.js
 // Each section tests the story's normal flow and alternate flow from the report.

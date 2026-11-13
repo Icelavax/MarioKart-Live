@@ -1,3 +1,20 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US38 View IDP Shortlists - <<Boundary>> ViewIDPShortlistsPage
+//
+// What to say: This is the screen for US38. It first checks the input with Validator.js (blank
+//              fields, formats). Only if the input is valid does it call
+//              ViewIDPShortlistsController.getShortlistCount(), and then it shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Why is field validation in the boundary and not in the entity?
+// A: Bad input is stopped at the screen, so the controller and entity only ever receive clean
+//    data. The entity only checks rules that need stored data (e.g. duplicates).
+//
+// Q: How is the shortlist count updated?
+// A: When a customer saves an IDP (US32), SavedIDP.saveIDP() adds 1 to that IDP's shortlistCount.
+// ==========================================================================
+
 // bring in ViewIDPShortlistsController - this page passes the user's request to it
 import ViewIDPShortlistsController from '../control/ViewIDPShortlistsController.js';
 // bring in the shared field-check helpers we need: isPositiveInteger

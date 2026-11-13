@@ -1,3 +1,20 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US34 View Saved IDP - <<Boundary>> ViewSavedIDPPage
+//
+// What to say: This is the screen for US34. It first checks the input with Validator.js (blank
+//              fields, formats). Only if the input is valid does it call
+//              ViewSavedIDPController.viewSavedIDP(), and then it shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Why is field validation in the boundary and not in the entity?
+// A: Bad input is stopped at the screen, so the controller and entity only ever receive clean
+//    data. The entity only checks rules that need stored data (e.g. duplicates).
+//
+// Q: What if the record does not exist or was deleted?
+// A: The entity returns null and the page shows an error message instead of the details.
+// ==========================================================================
+
 // bring in ViewSavedIDPController - this page passes the user's request to it
 import ViewSavedIDPController from '../control/ViewSavedIDPController.js';
 // bring in Session - who is logged in and which role they have

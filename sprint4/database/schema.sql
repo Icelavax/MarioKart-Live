@@ -1,3 +1,16 @@
+-- ==========================================================================
+-- PRESENTATION NOTE
+-- database/schema.sql - the 7 tables
+--
+-- What to say: One table per entity class; column names are the entity attributes in snake_case.
+--              db.js creates these tables in Neon automatically on the first start (CREATE TABLE
+--              IF NOT EXISTS).
+--
+-- Q: How are the tables linked?
+-- A: user_accounts.profile_id points to user_profiles; idps point to their designer and category;
+--    idp_view_records and saved_idps point to an IDP and a customer.
+-- ==========================================================================
+
 -- For LATER, when the database is added. Not used yet.
 -- One table per entity class. Column names = entity attributes in snake_case.
 

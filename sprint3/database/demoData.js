@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// database/demoData.js - demo data for the UI
+//
+// What to say: Gives every screen something to show: categories, IDPs, company profiles, views
+//              and saved IDPs spread over recent weeks so the reports have data. Records are
+//              created through the entity methods.
+//
+// Q: Do the tests use this?
+// A: No, only the web UI does. The tests use seed.js and testData.js.
+// ==========================================================================
+
 // Demo data for the web UI only (the tests do not use it).
 // Gives every screen something to show: categories, IDPs (current + past), company profiles,
 // and - in later sprints - customer views and saved IDPs, spread over the last few weeks

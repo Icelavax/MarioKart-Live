@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US47 Platform Manager Login - <<Boundary>> PlatformManagerLoginPage
+//
+// What to say: This is the screen for US47. It passes the user's request to
+//              PlatformManagerLoginController.login(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: What happens if a suspended user, or the wrong role, tries to log in?
+// A: UserAccount.login() checks the password, that the account is Active and that the profile
+//    matches. If any check fails it returns null and the page shows displayError().
+// ==========================================================================
+
 // bring in PlatformManagerLoginController - this page passes the user's request to it
 import PlatformManagerLoginController from '../control/PlatformManagerLoginController.js';
 // bring in Session, Role - who is logged in and which role they have

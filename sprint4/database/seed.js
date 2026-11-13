@@ -1,3 +1,14 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// database/seed.js - starting data
+//
+// What to say: Creates the 4 built-in profiles (IDs 1-4, used by the Login pages) and the test
+//              accounts. Used on the first run and by test.js.
+//
+// Q: Why must the profiles be IDs 1-4?
+// A: The Login pages check the profile ID to decide which role is logging in.
+// ==========================================================================
+
 // Starting data, written straight into the entities (used on the first run and by test.js).
 // The four built-in profiles MUST get IDs 1-4: the Login pages use them
 // (see boundary/Session.js -> Role).

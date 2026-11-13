@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// Shared field rules (not a BCE class)
+//
+// What to say: Every form uses these checks in its boundary: required fields, lengths, email and
+//              number formats. Keeping them in one file means the same rule gives the same
+//              message everywhere.
+//
+// Q: Why not validate in the database?
+// A: The user should get a clear message on the screen before anything is sent on. The database
+//    is the last line, not the first.
+// ==========================================================================
+
 // Field rules shared by the boundary (form) classes. Not a BCE class.
 //
 // All data-field validation (required fields, lengths, formats) happens in the BOUNDARY,

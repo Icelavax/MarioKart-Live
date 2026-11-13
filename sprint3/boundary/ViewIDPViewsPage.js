@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US37 View IDP Views - <<Boundary>> ViewIDPViewsPage
+//
+// What to say: This is the screen for US37. It passes the user's request to
+//              ViewIDPViewsController.getViewCount(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: How is the view count kept?
+// A: Every time a customer opens an IDP, an IDPViewRecord is created; the count is the number of
+//    records for that IDP. Only the IDP's own designer can see it.
+// ==========================================================================
+
 // bring in ViewIDPViewsController - this page passes the user's request to it
 import ViewIDPViewsController from '../control/ViewIDPViewsController.js';
 

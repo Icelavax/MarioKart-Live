@@ -15,6 +15,7 @@ Each folder holds the full, runnable code as it stood at the end of that sprint.
 | [`sprint3/`](sprint3) | Sprint 3 | US4, US5, US9, US10, US16, US17, US23, US24, US28, US29, US30, US37, US38, US42, US43 | Zhi Xiang |
 | [`sprint4/`](sprint4) | Sprint 4 (live) | US32, US33, US34, US44, US45, US46 | Zhi Xiang |
 
+<<<<<<< HEAD
 ## Sprint timeline
 
 | Sprint | Start | End | Folder |
@@ -51,6 +52,30 @@ npm test       # unit tests
 
 TDD tests (Sprint 1 login/logout) are in `sprint4/tdd/`:
 
+=======
+## Folder layout (inside each sprint)
+
+```
+boundary/   UI pages + field validation   (<<Boundary>>)
+control/    one controller per user story (<<Control>>)
+entity/     data classes                  (<<Entity>>)
+database/   schema, test data, Neon connection (db.js)
+web/        Express views and styles
+test.js     unit tests
+```
+
+## Run a sprint
+
+```
+cd sprint4
+npm install
+npm start      # http://localhost:3000
+npm test       # unit tests
+```
+
+TDD tests (Sprint 1 login/logout) are in `sprint4/tdd/`:
+
+>>>>>>> 0c039a900198c986f9ffa182e38641714a0971a3
 ```
 cd sprint4
 npm run test:sprint1

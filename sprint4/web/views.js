@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// web/views.js - HTML for every screen
+//
+// What to say: Each function returns the HTML for one screen. Views only display data; they never
+//              change it. The role-based navigation tabs come from the logged-in user's profile.
+//
+// Q: Why not React?
+// A: The assignment focus is the BCE design. Server-rendered pages keep the UI simple and keep
+//    all logic in boundary, control and entity.
+// ==========================================================================
+
 // HTML for each screen. Sprint 1 screens follow the Sprint 1 wireframes; later screens reuse
 // the same look. Views only display data - no business logic here.
 import { Role } from '../boundary/Session.js';

@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// database/db.js - connection to Neon PostgreSQL
+//
+// What to say: It reads DATABASE_URL (set on Render, never in code) and connects to Neon over
+//              SSL. At start-up it loads every table into the entities; after each change it
+//              saves everything inside BEGIN/COMMIT, and ROLLBACK if anything fails.
+//
+// Q: What is the downside of saving like this?
+// A: Every save rewrites all tables, which is fine for our data size but would not scale. A
+//    production version would use one SQL query per change (UPDATE ... WHERE id = $1).
+// ==========================================================================
+
 // Saves the data in a PostgreSQL database (e.g. a free Neon database), so it survives restarts.
 //
 // Only used when the DATABASE_URL environment variable is set (on Render: Environment -> Add variable).

@@ -1,3 +1,18 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// <<Entity>> UserAccount
+//
+// Used by: US1, US11, US18, US35, US47.
+// What to say: The entity holds the data and the business rules that need stored data (duplicate
+//              checks, status checks, counts). Each user story calls its own method here through
+//              its controller.
+//
+// Q: Where is the SQL? I do not see any queries here.
+// A: The entity works on its in-memory list. database/db.js loads every table from Neon at
+//    start-up and saves each change back in one transaction. This keeps the entity classes the
+//    same as our BCE diagram and easy to unit test.
+// ==========================================================================
+
 // bring in Node's built-in crypto library (used to hash passwords)
 import { createHash } from 'node:crypto';
 

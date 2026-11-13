@@ -1,3 +1,17 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US28 Delete Past IDP - <<Control>> DeletePastIDPController
+//
+// What to say: The controller has one job: it takes the request from the boundary page and passes
+//              it to IDP.deleteIDP(), then hands the answer back. It has no screen and holds no
+//              data.
+//
+// Q: Why have a controller if it only passes the call on?
+// A: It keeps the screen and the data apart: the boundary never touches the entity directly. If
+//    the business logic changes, only the controller and entity change, not the UI. That is the
+//    BCE rule.
+// ==========================================================================
+
 // bring in the IDP entity class (it holds and checks the idp data)
 import IDP from '../entity/IDP.js';
 

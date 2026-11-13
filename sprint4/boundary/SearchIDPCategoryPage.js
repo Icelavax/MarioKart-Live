@@ -1,3 +1,21 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US43 Search IDP Category - <<Boundary>> SearchIDPCategoryPage
+//
+// What to say: This is the screen for US43. It first checks the input with Validator.js (blank
+//              fields, formats). Only if the input is valid does it call
+//              SearchIDPCategoryController.searchCategory(), and then it shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Why is field validation in the boundary and not in the entity?
+// A: Bad input is stopped at the screen, so the controller and entity only ever receive clean
+//    data. The entity only checks rules that need stored data (e.g. duplicates).
+//
+// Q: How does the search match?
+// A: It trims the keyword and does a case-insensitive "contains" match on the record's text
+//    fields. An empty result shows a "no results" message (the alternate flow).
+// ==========================================================================
+
 // bring in SearchIDPCategoryController - this page passes the user's request to it
 import SearchIDPCategoryController from '../control/SearchIDPCategoryController.js';
 // bring in the shared field-check helpers we need: isFilled

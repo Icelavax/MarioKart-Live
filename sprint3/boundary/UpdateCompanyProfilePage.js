@@ -1,3 +1,21 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US15 Update Company Profile - <<Boundary>> UpdateCompanyProfilePage
+//
+// What to say: This is the screen for US15. It first checks the input with Validator.js (blank
+//              fields, formats). Only if the input is valid does it call
+//              UpdateCompanyProfileController.getCompanyProfile(), and then it shows the result
+//              with displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Why is field validation in the boundary and not in the entity?
+// A: Bad input is stopped at the screen, so the controller and entity only ever receive clean
+//    data. The entity only checks rules that need stored data (e.g. duplicates).
+//
+// Q: When is the change actually saved?
+// A: Only after the user clicks Yes on the confirmation pop-up (displayConfirmation() in the
+//    sequence diagram). Then the entity updates the record and db.js saves it to Neon.
+// ==========================================================================
+
 // bring in UpdateCompanyProfileController - this page passes the user's request to it
 import UpdateCompanyProfileController from '../control/UpdateCompanyProfileController.js';
 // bring in Session - who is logged in and which role they have

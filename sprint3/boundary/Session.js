@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// Session - who is logged in (not a BCE class)
+//
+// What to say: The four Login pages set Session.userId, profileId and fullName; the four Logout
+//              pages clear them with killSession(). Each browser gets its own session through a
+//              cookie, so several people can use the site at once.
+//
+// Q: How long does a login last?
+// A: 8 hours of no activity, then the session expires and the user is sent back to the login
+//    page.
+// ==========================================================================
+
 // bring in Node's AsyncLocalStorage: lets each browser request keep its own login data
 import { AsyncLocalStorage } from 'node:async_hooks';
 

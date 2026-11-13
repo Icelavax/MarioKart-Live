@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US10 Search User Profile - <<Boundary>> SearchUserProfilePage
+//
+// What to say: This is the screen for US10. It passes the user's request to
+//              SearchUserProfileController.searchUserProfile(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: How does the search match?
+// A: It trims the keyword and does a case-insensitive "contains" match on the record's text
+//    fields. An empty result shows a "no results" message (the alternate flow).
+// ==========================================================================
+
 // bring in SearchUserProfileController - this page passes the user's request to it
 import SearchUserProfileController from '../control/SearchUserProfileController.js';
 

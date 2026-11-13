@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US21 View Current IDP - <<Boundary>> ViewCurrentIDPPage
+//
+// What to say: This is the screen for US21. It passes the user's request to
+//              ViewCurrentIDPController.viewIDP(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: What if the record does not exist or was deleted?
+// A: The entity returns null and the page shows an error message instead of the details.
+// ==========================================================================
+
 // bring in ViewCurrentIDPController - this page passes the user's request to it
 import ViewCurrentIDPController from '../control/ViewCurrentIDPController.js';
 // bring in IDPStatus from the IDP entity file

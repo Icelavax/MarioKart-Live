@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// server.js - Express web server
+//
+// What to say: The server only connects web routes to Boundary methods: it puts the form input
+//              into the page, calls the BCE methods in the order of the sequence diagram, and
+//              shows page.output. There is no business logic here.
+//
+// Q: Where is the HTML?
+// A: web/views.js builds each page as HTML on the server (server-side rendering). Right-click >
+//    View Page Source on the live site shows it.
+// ==========================================================================
+
 // Web UI. Run:  npm install  then  npm start  ->  http://localhost:3000
 //
 // Each route only (1) puts the user's input into a <<Boundary>> page,

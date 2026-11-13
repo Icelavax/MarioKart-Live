@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US4 Suspend User Account - <<Boundary>> SuspendUserAccountPage
+//
+// What to say: This is the screen for US4. It passes the user's request to
+//              SuspendUserAccountController.suspendUserAccount(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Can a suspended user still log in?
+// A: No. Suspending sets accountStatus to Suspended, and UserAccount.login() only accepts Active
+//    accounts.
+// ==========================================================================
+
 // bring in SuspendUserAccountController - this page passes the user's request to it
 import SuspendUserAccountController from '../control/SuspendUserAccountController.js';
 

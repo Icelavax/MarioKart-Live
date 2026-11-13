@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US2 View User Account - <<Boundary>> ViewUserAccountPage
+//
+// What to say: This is the screen for US2. It passes the user's request to
+//              ViewUserAccountController.viewUserAccount(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: What if the record does not exist or was deleted?
+// A: The entity returns null and the page shows an error message instead of the details.
+// ==========================================================================
+
 // bring in ViewUserAccountController - this page passes the user's request to it
 import ViewUserAccountController from '../control/ViewUserAccountController.js';
 

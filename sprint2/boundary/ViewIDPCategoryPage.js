@@ -1,3 +1,15 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US40 View IDP Category - <<Boundary>> ViewIDPCategoryPage
+//
+// What to say: This is the screen for US40. It passes the user's request to
+//              ViewIDPCategoryController.viewCategory(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: What if the record does not exist or was deleted?
+// A: The entity returns null and the page shows an error message instead of the details.
+// ==========================================================================
+
 // bring in ViewIDPCategoryController - this page passes the user's request to it
 import ViewIDPCategoryController from '../control/ViewIDPCategoryController.js';
 

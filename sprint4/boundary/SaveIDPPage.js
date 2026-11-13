@@ -1,3 +1,20 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US32 Save IDP - <<Boundary>> SaveIDPPage
+//
+// What to say: This is the screen for US32. It first checks the input with Validator.js (blank
+//              fields, formats). Only if the input is valid does it call
+//              SaveIDPController.saveIDP(), and then it shows the result with displaySuccess() or
+//              displayError(), following the sequence diagram.
+//
+// Q: Why is field validation in the boundary and not in the entity?
+// A: Bad input is stopped at the screen, so the controller and entity only ever receive clean
+//    data. The entity only checks rules that need stored data (e.g. duplicates).
+//
+// Q: What if the customer saves the same IDP twice?
+// A: SavedIDP.saveIDP() returns false and the page shows "IDP already saved".
+// ==========================================================================
+
 // bring in SaveIDPController - this page passes the user's request to it
 import SaveIDPController from '../control/SaveIDPController.js';
 // bring in Session - who is logged in and which role they have

@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// US9 Delete User Profile - <<Boundary>> DeleteUserProfilePage
+//
+// What to say: This is the screen for US9. It passes the user's request to
+//              DeleteUserProfileController.deleteUserProfile(), and then shows the result with
+//              displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Is it really removed from the database?
+// A: The entity removes it from its list after the Yes confirmation, and db.js saves the change
+//    to Neon in one transaction (BEGIN/COMMIT).
+// ==========================================================================
+
 // bring in DeleteUserProfileController - this page passes the user's request to it
 import DeleteUserProfileController from '../control/DeleteUserProfileController.js';
 

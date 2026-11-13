@@ -1,3 +1,16 @@
+// ==========================================================================
+// PRESENTATION NOTE
+// Extra (pairs with US4) Unsuspend User Account - <<Boundary>> UnsuspendUserAccountPage
+//
+// What to say: This is the screen for Extra (pairs with US4). It passes the user's request to
+//              UnsuspendUserAccountController.unsuspendUserAccount(), and then shows the result
+//              with displaySuccess() or displayError(), following the sequence diagram.
+//
+// Q: Can a suspended user still log in?
+// A: No. Suspending sets accountStatus to Suspended, and UserAccount.login() only accepts Active
+//    accounts.
+// ==========================================================================
+
 // bring in UnsuspendUserAccountController - this page passes the user's request to it
 import UnsuspendUserAccountController from '../control/UnsuspendUserAccountController.js';
 
